@@ -10,7 +10,7 @@ class NLPEngineMock {
     }
 
     _create = url => {
-    	return 'k3kjk'; // reqId
+    	return {reqId: 'k3kjk', url: url}; // reqId
     }
     
     _steps = reqId => {

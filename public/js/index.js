@@ -25,6 +25,8 @@ const startStopHandler = () => {
 const createRequest = () => {
     const inputUrl = txtInputUrl.property('value');
     reqId = nlpEngine.create(inputUrl);
+
+    console.log('Created request', reqId);
 }
 
 const startPolling = () => {
@@ -42,6 +44,9 @@ const stopPolling = () => {
 const pollHandler = () => {
     // Poll server and update DOM
     const data = nlpEngine.fetch(reqId);
+
+    console.log('Data', data);
+
     updateDOM(data);
     if (data.done === true) stopPolling();
 }
