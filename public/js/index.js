@@ -11,8 +11,12 @@ const startStopHandler = () => {
     if (reqId === null) {
 	resetDOM();
 	nlpEngine = new NLPEngineMock('localhost:3000');
-	reqId = createRequest();
-	startPolling();
+	// nlpEngine = new NLPEngine('http://redbuzz.us/facto/');
+	const inputUrl = txtInputUrl.property('value');
+	createRequest(inputUrl, d => {
+	    reqId = d.reqId;
+	    startPolling();
+	});
     }
     else {
 	stopPolling();
@@ -22,11 +26,10 @@ const startStopHandler = () => {
 }
 
 // Utility functions
-const createRequest = () => {
-    const inputUrl = txtInputUrl.property('value');
-    reqId = nlpEngine.create(inputUrl);
-
-    console.log('Created request', reqId);
+const createRequest = (url, cb) => {
+    nlpEngine.create(url, d => {
+	cb(d);
+    });
 }
 
 const startPolling = () => {
@@ -43,12 +46,11 @@ const stopPolling = () => {
 
 const pollHandler = () => {
     // Poll server and update DOM
-    const data = nlpEngine.fetch(reqId);
-
-    console.log('Data', data);
-
-    updateDOM(data);
-    if (data.done === true) stopPolling();
+    nlpEngine.fetch(reqId, d => {
+	console.log('Data', d);
+	updateDOM(d);
+	if (d.done === true) stopPolling();
+    });
 }
 
 const resetDOM = () => {

@@ -46,11 +46,11 @@ class NLPEngineMock {
 	}
     }
 
-    create = url => {
-	return this._create(url);
+    create = (url, cb) => {
+	cb(this._create(url));
     }
     
-    fetch = reqId => {
+    fetch = (reqId, cb) => {
 	const ss = this._steps(reqId);
 	let done = false;
 	let nlpResults = null;
@@ -59,10 +59,10 @@ class NLPEngineMock {
 	    nlpResults = this._nlpResults(reqId);
 	}
 
-	return {
+	cb({
 	    steps: ss,
 	    done: done,
 	    results: nlpResults
-	}
+	});
     }
 }
