@@ -19,7 +19,7 @@ class NLPEngineMock {
     	    res.push(this.allSteps[i]);
     	}
     	if (this.stepIter < this.allSteps.length - 1 &&
-	    Math.random() < 0.3) this.stepIter++;
+	    Math.random() < 1) this.stepIter++;
     	return res;
     }
 

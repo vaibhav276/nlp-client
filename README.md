@@ -64,3 +64,12 @@ data: { reqId: <reqId> }
    ]
 }
 ```
+
+### Curl calls
+```sh
+curl --header "Content-Type: application/json" --request POST -H "Accept: application/json" --data '{"url":"someurl"}' http://redbuzz.us/facto/create.php
+```
+
+```sh
+curl --header "Content-Type: application/json" --request GET -H "Accept: application/json" --data '{"reqId":"10"}' http://redbuzz.us/facto/fetch.php
+```
