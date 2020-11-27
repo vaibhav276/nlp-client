@@ -90,6 +90,7 @@ const updateDOM = data => {
 	    .text(scoreString(data.results.score));
 
 	const scoreX = d3.scaleLinear([0, 1], [0, 500]);
+	const scoreColor = d3.scaleLinear([0, 1], ['#F85C5C', '#2EF67A']);
 	const scoreSvg = d3.select('#divScore').append('svg')
 	      .attr('class', 'score-svg');
 
@@ -102,6 +103,7 @@ const updateDOM = data => {
 	    .attr('x',0)
 	    .attr('y',0)
 	    .attr('height',5)
+	    .attr('fill', d => scoreColor(d))
 	    .transition(t)
 	    .attr('width', d => scoreX(d));
 
@@ -115,11 +117,15 @@ const updateDOM = data => {
 	    .data(data.results.components)
 	    .join('tr')
 	    .selectAll('td')
-	    .data(d => [camel2title(d.name), d.value])
+	    .data(d => [camel2title(d.name), floatToPercentageString(d.value), d.value])
 	    .enter().append('td')
 	    .append('span')
-	    .text((d, i) => i == 0 ? d : '')
-	    .attr('class', (d, i) => i == 0 ? 'component-name tooltip' : 'component-value');
+	    .text(d => d)
+	    .attr('class', (d, i) => {
+		if (i == 0) return 'component-name tooltip';
+		if (i == 1) return 'component-text-value';
+		if (i == 2) return 'component-value';
+	    });
 
 	d3.selectAll('span.tooltip')
 	    .data(data.results.components)
@@ -131,6 +137,7 @@ const updateDOM = data => {
 	const componentX = d3.scaleLinear([0, 1], [0, 200]);
 	const componentColor = d3.scaleLinear([0, 1], ['#cccaca', '#000000']);
 	d3.selectAll('span.component-value')
+	    .text('')
 	    .data(data.results.components)
 	    .append('svg')
 	    .attr('width', 200)
@@ -147,6 +154,10 @@ const updateDOM = data => {
 const camel2title = camelCase => camelCase
   .replace(/([A-Z])/g, match => ` ${match}`)
       .replace(/^./, match => match.toUpperCase());
+
+const floatToPercentageString = v => {
+    return Math.floor(v * 100) + '%';
+}
 
 const scoreString = n => {
     if (n < 0.3) return 'Content may be harmful';

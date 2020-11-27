@@ -71,8 +71,8 @@ table {
 }
 
 td {
-    width: 200px;
-    text-align: right;
+    min-width: 50px;
+    text-align: left;
 }
 
 td .component-name {
