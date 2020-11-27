@@ -66,15 +66,13 @@ body {
     height: 30px;
 }
 
-.score-outer-rect {
-}
-
-.score-inner-rect {
-    fill: #6796FD;
-}
-
 table {
     margin: auto;
+}
+
+td {
+    width: 200px;
+    text-align: right;
 }
 
 td .component-name {
